@@ -7,32 +7,47 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 25,
         alignItems: 'center',
         justifyContent: 'center',
-        
+        paddingTop: 100, // espaço no topo
+
+    },
+    content: {
+        paddingHorizontal: 10,
+
     },
     title: {
         fontSize: 32,
         color: 'black',
         fontWeight: 'bold',
         textAlign: 'center',
-        paddingHorizontal: 30,
+        paddingBottom: 15,
 
     },
     text: {
         fontSize: 20,
-        marginVertical: 22,
+        paddingVertical: 15,
         color: 'black',
+        textAlign: 'center',
+        fontWeight: 'bold',
 
     }, 
-    content: {
-        paddingTop: 100, // espaço no topo
-        paddingHorizontal: 10,
+    textMaior: {
+        fontSize: 21,
+        color: 'black',
+        textAlign: 'center',
+
+    }, 
+
+    flatlistStyle: {
+        alignItems: 'center',
 
     },
+
     campoPesquisar: {
         alignItems: 'center',
-        paddingBottom: 80, // espaço no fundo do botão obter/buscar/pesquisa
-        
+        marginBottom: 50,
+
     },
+
     item: {
         padding: 8,
         marginVertical: 8,
@@ -41,58 +56,66 @@ export const styles = StyleSheet.create({
         backgroundColor: "white",
         
     },
-    flatlistStyle: {
-        alignItems: 'center',
-        marginBottom: 25,
-        paddingHorizontal: 5,
-    },
-
+    
     input: {
         backgroundColor: '#bdbec3',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 8,
-        width: '100%',
-        fontSize: 15,
+        fontSize: 23,
         textAlign: 'center',
+        paddingVertical: 10,
+        marginTop: 10,
+        width: '100%',
         color: 'black',
+
+    },
+
+    semana: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        //width: 350,
+    },
+
+    pontoSemana: {
+        width: '110%',
+        height: 50,
+        borderRadius: 20,
+        backgroundColor: 'transparent', // fundo transparente
+        borderWidth: 6, // largura da borda
+        borderColor: '#0B4461', // cor da borda 
     },
 
     inputResponse: {
         backgroundColor: '#bdbec3',
         borderRadius: 10,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        marginTop: 25,
-        fontSize: 24,
+        width: 140,
+        fontSize: 23,
         textAlign: 'center',
         fontWeight: 'bold',
         color: '#0B4461',
-        width: 140,
+        paddingVertical: 10,
     },
 
     textResponse: {
-        fontSize: 17,
+        fontSize: 14,
         fontWeight: 'bold',
-        marginBottom: 35,
         color: 'black',
         textAlign: 'center',
-        marginLeft: 10,
         paddingTop: 10,
-        
     },
     
     alinhamentoLado: {
+        marginTop: 30,
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingLeft: 5,
-
     },
 
     alinhamentoLadoTexto: {
         justifyContent: 'space-between',
         flexDirection: 'row',
-
+        textAlign: 'right',
+        marginBottom: 10,
+        paddingHorizontal: 10,
     },
+    
+
 });

@@ -8,11 +8,7 @@ import { ButtonSmall } from "../../components/buttonSmall";
 
 import { cidades } from '../../components/cidades';
 
-import { diaSemanaInicial } from '../../components/diaSemanaInicial';
-import { diaSemanaFinal } from '../../components/diaSemanaFinal';
-
-import { anoInicial } from '../../components/anoInicial';
-import { anoFinal } from '../../components/anoFinal';
+import Slider from '@react-native-community/slider';
 
 import fetchData from '../../components/consultaApi';
  
@@ -26,10 +22,13 @@ export function Post () {
 
     const [ selectedItem, setSelectedItem ] = useState(null); // seleção da doença para pesquisa
     const [ selecaoCidade, setselecaoCidade ] = useState(null); // cidade
-    const [ selecaoSemanaInicial, setSelecaoSemanaInicial ] = useState(null); // semana inicial
-    const [ selecaoSemanaFinal, setSelecaoSemanaFinal ] = useState(null); // semana final
-    const [ selecaoAnoInicial, setSelecaoAnoInicial ] = useState(null);  // ano inicial
-    const [ selecaoAnoFinal, setSelecaoAnoFinal ] = useState(null); // ano final
+
+    const [ selecaoSemanaInicial, setSelecaoSemanaInicial ] = useState(1); // semana inicial
+    const [ selecaoSemanaFinal, setSelecaoSemanaFinal ] = useState(52); // semana final
+
+    const [ selecaoAnoInicial, setSelecaoAnoInicial ] = useState(2010);  // ano inicial
+    const [ selecaoAnoFinal, setSelecaoAnoFinal ] = useState(2024); // ano final
+
     const [ searchTerm, setSearchTerm] = useState(''); // pesquisa
     
     const [ casos, setCasos ] = useState(''); // casos
@@ -96,52 +95,48 @@ export function Post () {
         setselecaoCidade(id);
     }
 
-    const pressSemanaInicial = (id) => {
-        console.log(id);
-        setSelecaoSemanaInicial(id);
+    const definicao1 = (selecaoSemanaInicial) => {
+        setSelecaoSemanaInicial(selecaoSemanaInicial);
 
-        if (id < selecaoSemanaFinal) {
-            setSelecaoSemanaInicial(id);
-        }else{
-            setSelecaoSemanaFinal(id);
+        if (selecaoSemanaInicial < selecaoSemanaFinal){
+            setSelecaoSemanaInicial(selecaoSemanaInicial);
+        } else {
+            setSelecaoSemanaFinal(selecaoSemanaInicial);
         }
     }
 
-    const pressSemanaFinal = (id) => {
-        console.log(id);
-        setSelecaoSemanaFinal(id);
+    const definicao2 = (selecaoSemanaFinal) => {
+        setSelecaoSemanaFinal(selecaoSemanaFinal);
 
-        if (id > selecaoSemanaInicial) {
-            setSelecaoSemanaFinal(id);
-        }else{
-            setSelecaoSemanaInicial(id);
-        }
-
-    }
-
-    const pressAnoInicial = (id) => {
-        console.log(id);
-        setSelecaoAnoInicial(id);
-
-        if (id < selecaoAnoFinal) {
-            setSelecaoAnoInicial(id);
-        }else{
-            setSelecaoAnoFinal(id);
+        if (selecaoSemanaFinal > selecaoSemanaInicial){
+            setSelecaoSemanaFinal(selecaoSemanaFinal);
+        } else {
+            setSelecaoSemanaInicial(selecaoSemanaFinal);
         }
     }
-    
-    const pressAnoFinal = (id) => {
-        console.log(id);
-        setSelecaoAnoFinal(id);
 
-        if (id > selecaoAnoInicial) {
-            setSelecaoAnoFinal(id);
-        }else{
-            setSelecaoAnoInicial(id);
-        } 
+
+    const definicaoAnoInicial = (selecaoAnoInicial) => {
+        setSelecaoAnoInicial(selecaoAnoInicial);
+
+        if (selecaoAnoInicial < selecaoAnoFinal) {
+            setSelecaoAnoInicial(selecaoAnoInicial);
+        } else {
+            setSelecaoAnoFinal(selecaoAnoInicial);
+        }
     }
-    
 
+    const definicaoAnoFinal = (selecaoAnoFinal) => {
+        setSelecaoAnoFinal(selecaoAnoFinal);
+
+        if (selecaoAnoFinal > selecaoAnoInicial) {
+            setSelecaoAnoFinal(selecaoAnoFinal);
+        } else {
+            setSelecaoAnoInicial(selecaoAnoFinal);
+        }
+    }
+
+   
 
     const filteredCidades = cidades.filter((cidade) =>
         cidade.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -161,7 +156,7 @@ export function Post () {
 
                 <View>
                     <Text style={styles.text}>
-                        Preencha todos os dados apenas com um toque: Neste campo preencha para qual Doença você quer fazer a pesquisa.
+                        Preencha todos os dados apenas com um toque: Indique para qual Doença deseja pesquisar.
                     </Text>
                     <View style={styles.flatlistStyle}>
                         <FlatList 
@@ -210,96 +205,69 @@ export function Post () {
                         )}
                     />
                 </View>
+
+                <View style={styles.semana}>
+                    <Text style={styles.text} >Indique a semana Inicial e Final.</Text>
+                    
+                        <Slider 
+                            style={styles.pontoSemana}
+                            minimumValue={1}
+                            maximumValue={52}
+                            step={1}
+                            minimumTrackTintColor="#3944bc" // cor da linha
+                            maximumTrackTintColor="white"
+                            thumbTintColor="#3944bc"
+                            value={selecaoSemanaInicial}
+                            onValueChange={definicao1}
+
+                        />
+                        <Text style={styles.textMaior} >Pesquisar entre a {selecaoSemanaInicial}º semana até {selecaoSemanaFinal}º</Text>
+                        <Slider 
+                            style={styles.pontoSemana}
+                            minimumValue={1}
+                            maximumValue={52}
+                            step={1}
+                            minimumTrackTintColor="#3944bc" // cor da linha
+                            maximumTrackTintColor="white"
+                            thumbTintColor="#3944bc"
+                            value={selecaoSemanaFinal}
+                            onValueChange={definicao2}
+                        />
+                    
+
+                </View>
+
+
+                <View style={styles.semana}>
+                    <Text style={styles.text} >Indique a ano para pesquisa.</Text>
+                    
+                        <Slider 
+                            style={styles.pontoSemana}
+                            minimumValue={2010}
+                            maximumValue={2024}
+                            step={1}
+                            minimumTrackTintColor="#3944bc" // cor da linha
+                            maximumTrackTintColor="white"
+                            thumbTintColor="#3944bc"
+                            value={selecaoAnoInicial}
+                            onValueChange={definicaoAnoInicial}
+
+                        />
+                        <Text style={styles.textMaior} >Pesquisar entre o ano de {selecaoAnoInicial} à {selecaoAnoFinal}</Text>
+                        <Slider 
+                            style={styles.pontoSemana}
+                            minimumValue={2010}
+                            maximumValue={2024}
+                            step={1}
+                            minimumTrackTintColor="#3944bc" // cor da linha
+                            maximumTrackTintColor="white"
+                            thumbTintColor="#3944bc"
+                            value={selecaoAnoFinal}
+                            onValueChange={definicaoAnoFinal}
+                        />
+                    
+                </View>
                 
-                <View style={styles.flatlistStyle}>
-                    <Text style={styles.text}>
-                        Escolha o número da Semana Inicial para sua pesquisa.
-                    </Text>
-                    <FlatList
-                        numColumns={1}
-                        keyExtractor={(item) => item.id}
-                        data={diaSemanaInicial}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => pressSemanaInicial(item.id) }
-                                style={[styles.item, { backgroundColor: selecaoSemanaInicial === item.id ? '#3944bc' : '#bdbec3' }]}
-                            >
-                                <Text style={[{ color: selecaoSemanaInicial === item.id ? 'white' : '#3944bc' }]}>{item.title}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-
-                </View>
-
-                <View style={styles.flatlistStyle}>
-                    <Text style={styles.text}>
-                        Escolha o número da Semana Final para sua pesquisa. 
-                    </Text>
-                    <FlatList
-                        numColumns={1}
-                        keyExtractor={(item) => item.id}
-                        data={diaSemanaFinal}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => pressSemanaFinal(item.id) }
-                                style={[styles.item, { backgroundColor: selecaoSemanaFinal === item.id ? '#3944bc' : '#bdbec3' }]}
-                            >
-                                <Text style={[{ color: selecaoSemanaFinal === item.id ? 'white' : '#3944bc' }]}>{item.title}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-
-                </View>
-
-                <View style={styles.flatlistStyle} >
-                    <Text style={styles.text}>
-                        Escola o dia da Ano Inicial para sua pesquisa.
-                    </Text>
-                    <FlatList
-                        numColumns={1}
-                        keyExtractor={(item) => item.id}
-                        data={anoInicial}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => pressAnoInicial(item.id) }
-                                style={[styles.item, { backgroundColor: selecaoAnoInicial === item.id ? '#3944bc' : '#bdbec3' }]}
-                            >
-                                <Text style={[{ color: selecaoAnoInicial === item.id ? 'white' : '#3944bc' }]}>{item.title}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-
-                </View>
-
-                <View style={styles.flatlistStyle}>
-                    <Text style={styles.text}>
-                        Escola o dia da Ano Final para sua pesquisa.
-                    </Text>
-                    <FlatList
-                        numColumns={1}
-                        keyExtractor={(item) => item.id}
-                        data={anoFinal}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => pressAnoFinal(item.id) }
-                                style={[styles.item, { backgroundColor: selecaoAnoFinal === item.id ? '#3944bc' : '#bdbec3' }]}
-                            >
-                                <Text style={[{ color: selecaoAnoFinal === item.id ? 'white' : '#3944bc' }]}>{item.title}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-
-                </View>
-
-
 
                 <View style={styles.campoPesquisar}>
                     <ButtonSmall title='Obter' onPress={obterResultadosApi}  />
@@ -322,7 +290,7 @@ export function Post () {
             </View>
 
             <View style={styles.alinhamentoLadoTexto}>
-                <Text style={styles.textResponse}>
+                <Text style={[styles.textResponse]}>
                     Acumulo de casos{"\n"}entre os valores{"\n"}pesquisados.
                 </Text>
                 <Text style={styles.textResponse}>
@@ -331,12 +299,12 @@ export function Post () {
             </View>
 
             <View style={styles.alinhamentoLado}>
-                <TextInput
-                    value={String(umidade)}
-                    onChangeText={setUmidade}
-                    style={styles.inputResponse}
-                    editable={false}
-                />
+                    <TextInput
+                        value={String(umidade)}
+                        onChangeText={setUmidade}
+                        style={styles.inputResponse}
+                        editable={false}
+                    />
                 <TextInput
                     value={String(nivel)}
                     onChangeText={setNivel}

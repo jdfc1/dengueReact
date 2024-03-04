@@ -28,10 +28,9 @@ export function ButtonSmall( {
 
 export const styles = StyleSheet.create({
     botaoPadrao1: {
-        
         backgroundColor: "#3944bc",
         height: 35, // altura
-        width: 150, // largura
+        width: 180, // largura
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
